@@ -1,0 +1,83 @@
+_name: network_trainer
+data_loaders:
+  _name: s3n.fetch_data
+  dataset: 
+    _name: s3n.fgvc_dataset
+    data_dir: ./datasets/CUB_200_2011
+  batch_size: 16
+  num_workers: 4
+  transform:
+    _name: s3n.image_transform
+    image_size: [448, 448]
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  train_augmentation:
+    horizontal_flip: 0.5
+    random_crop:
+      scale: [0.5, 1]
+  test_augmentation:
+    center_crop: 448
+  test_image_size: 600
+  train_splits:
+    - train
+  test_splits:
+    - test
+log_path: './logs/cub_s3n.log'
+model:
+  _name: s3n.s3n
+  mode: 'resnet50'
+  num_classes: 200
+  radius: 0.09
+  radius_inv: 0.3
+criterion:
+  _name: s3n.multi_smooth_loss
+  smooth_ratio: 0.85
+optimizer:
+  _name: s3n.sgd_optimizer
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 1.0e-4
+parameter:
+  _name: s3n.finetune
+  base_lr: 0.001
+  groups:
+    'classifier': 10.0
+    'radius': 0.0001
+    'filter': 0.0001
+meters:
+  top1:
+      _name: s3n.multi_topk_meter 
+      k: 1
+      init_num: 0
+  loss:
+      _name: s3n.loss_meter
+max_epoch: 60
+device: cuda
+use_data_parallel: yes
+hooks:
+  on_start_epoch:
+    -
+      _name: s3n.update_lr
+      epoch_step: 40
+  on_start_forward:
+    -
+      _name: s3n.three_stage
+  on_end_epoch: 
+    - 
+      _name: s3n.print_state
+      formats:
+          - 'epoch: {epoch_idx}'
+          - 'train_loss: {metrics[train_loss]:.4f}'
+          - 'test_loss: {metrics[test_loss]:.4f}'
+          - 'train_branch1_top1: {metrics[train_top1][branch_0]:.2f}%'        
+          - 'train_branch2_top1: {metrics[train_top1][branch_1]:.2f}%'
+          - 'train_branch3_top1: {metrics[train_top1][branch_2]:.2f}%'
+          - 'train_branch4_top1: {metrics[train_top1][branch_3]:.2f}%'
+          - 'test_branch1_top1: {metrics[test_top1][branch_0]:.2f}%'        
+          - 'test_branch2_top1: {metrics[test_top1][branch_1]:.2f}%'
+          - 'test_branch3_top1: {metrics[test_top1][branch_2]:.2f}%'
+          - 'test_branch4_top1: {metrics[test_top1][branch_3]:.2f}%'
+    -
+      _name: s3n.checkpoint
+      save_dir: './generate/s3n/' 
+      save_step: 1
