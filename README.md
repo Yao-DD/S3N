@@ -24,7 +24,7 @@ Please follow the instruction below to install it and run the experiment demo.
 
     ```bash
     # note that data will be saved under your current path
-    $ git clone -b review https://github.com/TmpSav/SSS.git ./S3N
+    $ git clone https://github.com/Yao-DD/S3N.git ./S3N
     $ nest module install ./S3N/ s3n
     # verify the installation
     $ nest module list --filter s3n
