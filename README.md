@@ -3,7 +3,7 @@
 ![Illustration](illustration.png)
 
 ## PyTorch Implementation
-The [pytorch branch](#) contains:
+This repository contains:
 
 * the **pytorch** implementation of Selective Sparse Sampling.
 * the CUB-200-2011 demo (training, test).
