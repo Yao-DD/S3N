@@ -13,8 +13,8 @@ Please follow the instruction below to install it and run the experiment demo.
 ### Prerequisites
 * System (tested on Ubuntu 14.04LTS and Win10)
 * 2 Tesla P100 + CUDA CuDNN (CPU mode is also supported but significantly slower)
-* [Python>=3.6.8](https://www.python.org)
-* [PyTorch>=0.4.1](https://pytorch.org)
+* [Python=3.6.8](https://www.python.org)
+* [PyTorch=0.4.1](https://pytorch.org)
 * [Jupyter Notebook](https://jupyter.org/install.html)
 * [Nest](https://github.com/ZhouYanzhao/Nest.git)
 
@@ -61,3 +61,15 @@ Please follow the instruction below to install it and run the experiment demo.
     # run S3N
     $ PYTHONWARNINGS='ignore' CUDA_VISIBLE_DEVICES=0,1 nest task run ./demo/cub_s3n.yml
     ```
+
+### Pretrained models
+
+1. S3N model for CUB_200_2011 dataset is availavble on Baidu Disk.
+
+    ```bash
+    # The link 链接：https://pan.baidu.com/s/19x9zI_ZNi32sRGRgNwN_Fw 
+    # code: r252
+    ```
+
+## CAUTION
+The current code was prepared under the above-mentioned prerequisites. The use of other version can cause problems.
