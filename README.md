@@ -67,7 +67,7 @@ Please follow the instruction below to install it and run the experiment demo.
 1. S3N model for CUB_200_2011 dataset is availavble on Baidu Disk.
 
     ```bash
-    # The link 链接：https://pan.baidu.com/s/19x9zI_ZNi32sRGRgNwN_Fw 
+    # The link：https://pan.baidu.com/s/19x9zI_ZNi32sRGRgNwN_Fw
     # code: r252
     ```
 
