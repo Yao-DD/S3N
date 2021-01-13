@@ -66,7 +66,7 @@ def multi_smooth_loss(
             prob = F.log_softmax(input[i], dim=1)
             ymask = prob.data.new(prob.size()).zero_()
             ymask = ymask.scatter_(1, target.view(-1,1), 1)
-            ymask = smooth_ratio*ymask + (1-smooth_ratio)*(1-ymask)/(len(input[i][1])-1)
+            ymask = smooth_ratio*ymask + (1-smooth_ratio)*(1-ymask)/(input[i].shape[1]-1)
             loss_tmp = - weight_loss[i]*((prob*ymask).sum(1).mean())
         else:
             loss_tmp = weight_loss[i]*F.cross_entropy(input[i], target, weight, size_average, ignore_index, reduce)
